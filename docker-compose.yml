@@ -1,0 +1,58 @@
+version: '3.7'
+
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: vc_php
+    image: ${PHP_IMAGE:-vc/php}
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html:rw,cached
+      - ~/.ssh:/root/.ssh
+      # if you develop on Linux, you may use a bind-mounted host directory instead
+      # - ./var:/var/www/html/var:rw
+    networks:
+      - frontend
+      - backend
+  nginx:
+    build:
+      context: ./
+      target: vc_nginx
+    image: ${NGINX_IMAGE:-vc/nginx}
+    volumes:
+      - ./docker-services/nginx/conf.d-dev:/etc/nginx/conf.d
+      - .:/var/www/html
+    depends_on:
+      - php
+    ports:
+      - "80:80"
+    networks:
+      frontend:
+        aliases:
+          - localhost
+  db:
+    image: library/mysql:8
+    environment:
+      - MYSQL_DATABASE=vc
+      - MYSQL_USER=vc
+      - MYSQL_PASSWORD=vc123
+      - MYSQL_ROOT_PASSWORD=vc123
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker-services/db/conf.d:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
