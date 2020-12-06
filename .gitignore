@@ -12,3 +12,13 @@
 ###> JetBrains ###
 .idea
 ###< JetBrains ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> code coverage report ###
+coverage
+###< code coverage report ###
