@@ -17,11 +17,26 @@ class WidgetTest extends ApiTestCase
 
     const TEST_WIDGET_NAME = 'New Test Widget';
     const KNOWN_WIDGET_NAME = 'quisquam';
+    private $headers = [
+        'X-AUTH-TOKEN' => 'vctest',
+    ];
+
+    public function testNoAuth()
+    {
+        $this->createClient()->request('GET', '/api/widgets');
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
+    }
 
     public function testGetAll()
     {
         // The client implements Symfony HttpClient's `HttpClientInterface`, and the response `ResponseInterface`
-        $response = static::createClient()->request('GET', '/api/widgets');
+        $response = static::createClient()->request(
+            'GET',
+            '/api/widgets',
+            [
+                'headers' => $this->headers,
+            ]
+        );
 
         $this->assertResponseIsSuccessful();
         // Asserts that the returned content type is JSON-LD (the default)
@@ -50,8 +65,8 @@ class WidgetTest extends ApiTestCase
             'POST',
             '/api/widgets',
             [
-                'json' => [
-                ],
+                'json' => [],
+                'headers' => $this->headers,
             ]
         );
 
@@ -84,6 +99,7 @@ class WidgetTest extends ApiTestCase
                     'name' => 'more that twenty characters',
                     'description' => 'more that one hundred characters more that one hundred characters more that one hundred characters more that one hundred characters more that one hundred characters more that one hundred characters',
                 ],
+                'headers' => $this->headers,
             ]
         );
 
@@ -119,6 +135,7 @@ class WidgetTest extends ApiTestCase
                 'json' => [
                     'name' => self::TEST_WIDGET_NAME,
                 ],
+                'headers' => $this->headers,
             ]
         );
 
@@ -147,7 +164,10 @@ class WidgetTest extends ApiTestCase
                 [
                     'name' => self::KNOWN_WIDGET_NAME,
                 ]
-            )
+            ),
+            [
+                'headers' => $this->headers,
+            ],
         );
 
         $this->assertResponseIsSuccessful();
@@ -181,6 +201,7 @@ class WidgetTest extends ApiTestCase
                 'json' => [
                     'description' => 'New description 1',
                 ],
+                'headers' => $this->headers,
             ]
         );
 
@@ -214,9 +235,12 @@ class WidgetTest extends ApiTestCase
                 'json' => [
                     'description' => 'New description 2',
                 ],
-                'headers' => [
-                    'Content-Type' => 'application/merge-patch+json',
-                ],
+                'headers' => array_merge(
+                    $this->headers,
+                    [
+                        'Content-Type' => 'application/merge-patch+json',
+                    ]
+                ),
             ]
         );
 
@@ -244,7 +268,10 @@ class WidgetTest extends ApiTestCase
 
         $this->createClient()->request(
             'DELETE',
-            $iri
+            $iri,
+            [
+                'headers' => $this->headers,
+            ]
         );
 
         $this->assertResponseIsSuccessful();
