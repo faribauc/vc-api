@@ -1,4 +1,4 @@
 App\Entity\Widget:
-  widget_{1..10}:
-    name: <word(1)>
-    description: <sentence(4)>
+  widget:
+    name: testwidget1
+    description: testdescription1

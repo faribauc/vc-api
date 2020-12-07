@@ -16,7 +16,7 @@ class WidgetTest extends ApiTestCase
     use RefreshDatabaseTrait;
 
     const TEST_WIDGET_NAME = 'New Test Widget';
-    const KNOWN_WIDGET_NAME = 'quisquam';
+    const KNOWN_WIDGET_NAME = 'testwidget1';
     private $headers = [
         'X-AUTH-TOKEN' => 'vctest',
     ];
@@ -52,7 +52,7 @@ class WidgetTest extends ApiTestCase
         );
 
         // Because test fixtures are automatically loaded between each test, you can assert on them
-        $this->assertCount(10, $response->toArray()['hydra:member']);
+        $this->assertCount(1, $response->toArray()['hydra:member']);
 
         // Asserts that the returned JSON is validated by the JSON Schema generated for this resource by API Platform
         // This generated JSON Schema is also used in the OpenAPI spec!
