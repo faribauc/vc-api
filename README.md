@@ -16,7 +16,7 @@ docker-compose exec php bin/console hautelook:fixtures:load --no-bundles -n
 ## API token setup and usage
 1. Decide on a token value to use
 2. Create an MD5 hash of that value
-3. Set the hashed value as `API_TOKEN` in `.env` and `.env.test`
+3. Set the hashed value as `API_TOKEN` in `.env.local` and `.env.test.local`
 4. Use the original token value as the value of the `X-AUTH-TOKEN` header value when making API requests
 
 ## Usage
