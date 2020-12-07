@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\WidgetRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -21,11 +22,14 @@ class Widget
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=20)
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Length(max=100)
      */
     private $description;
 

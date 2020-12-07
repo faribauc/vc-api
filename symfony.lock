@@ -115,6 +115,9 @@
             "fixtures/.gitignore"
         ]
     },
+    "justinrainbow/json-schema": {
+        "version": "5.2.10"
+    },
     "laminas/laminas-code": {
         "version": "3.5.1"
     },
@@ -288,6 +291,9 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/http-client": {
+        "version": "v5.2.0"
     },
     "symfony/http-client-contracts": {
         "version": "v2.3.1"
